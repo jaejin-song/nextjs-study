@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useCallback, useMemo, useRef, useState } from "react";
 
 const getAverage = (numbers: number[]) => {
   console.log("평균값 계산 중..");
@@ -12,21 +12,23 @@ const getAverage = (numbers: number[]) => {
 export default function Page() {
   const [list, setList] = useState<number[]>([]);
   const [number, setNumber] = useState("");
+  const inputEl = useRef<HTMLInputElement | null>(null);
 
-  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const onChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     setNumber(e.target.value);
-  };
-  const onInsert = () => {
+  }, []);
+  const onInsert = useCallback(() => {
     const nextList = list.concat(parseInt(number));
     setList(nextList);
     setNumber("");
-  };
+    inputEl.current?.focus();
+  }, [list, number]);
 
   const avg = useMemo(() => getAverage(list), [list]);
 
   return (
     <div>
-      <input type="text" value={number} onChange={onChange} />
+      <input type="text" value={number} onChange={onChange} ref={inputEl} />
       <button onClick={onInsert}>등록</button>
       <ul>
         {list.map((value, index) => (
