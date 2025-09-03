@@ -1,32 +1,11 @@
 "use client";
 
-import { useReducer } from "react";
-
-interface State {
-  name: string;
-  nickname: string;
-}
-
-const reducer = (
-  state: State,
-  action: React.ChangeEvent<HTMLInputElement>["target"]
-) => {
-  return {
-    ...state,
-    [action.name]: action.value,
-  };
-};
+import { useInputs } from "./use-inputs";
 
 export default function Page() {
-  const [state, dispatch] = useReducer(reducer, {
-    name: "",
-    nickname: "",
-  });
-  const { name, nickname } = state;
+  const [state, onChange] = useInputs({ name: "", nickname: "" });
 
-  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    dispatch(e.target);
-  };
+  const { name, nickname } = state;
 
   return (
     <div>
