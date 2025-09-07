@@ -1,6 +1,12 @@
-import { FormEventHandler, useCallback, useState } from "react";
+"use client";
 
-export function ToDoInsert({ onInsert }: { onInsert: (text: string) => void }) {
+import React, { FormEventHandler, useCallback, useState } from "react";
+
+function ToDoInsertComponent({
+  onInsert,
+}: {
+  onInsert: (text: string) => void;
+}) {
   const [value, setValue] = useState("");
 
   const onChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
@@ -19,11 +25,21 @@ export function ToDoInsert({ onInsert }: { onInsert: (text: string) => void }) {
   );
 
   return (
-    <form onSubmit={onSubmit}>
-      <input type="text" value={value} onChange={onChange} />
-      <button className="ml-4 border p-2" type="submit">
+    <form className="flex bg-[#495057]" onSubmit={onSubmit}>
+      <input
+        className="grow outline-hidden border-none p-[0.5rem] text-[1.125rem]"
+        type="text"
+        value={value}
+        onChange={onChange}
+      />
+      <button
+        className="outline-hidden border-none bg-[#868e96] px-[1rem] flex items-center cursor-pointer"
+        type="submit"
+      >
         Add
       </button>
     </form>
   );
 }
+
+export const ToDoInsert = React.memo(ToDoInsertComponent);
